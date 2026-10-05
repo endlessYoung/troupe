@@ -1,0 +1,721 @@
+#warroom {
+  --ink: #1c2b41;
+  --muted: #5c6e86;
+  --line: rgba(255, 255, 255, 0.72);
+  --card: rgba(255, 255, 255, 0.9);
+  --blue: #3c7dff;
+  --shadow: 0 10px 30px rgba(48, 78, 120, 0.12);
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  background: #ebe4d8;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+#warroom * { box-sizing: border-box; }
+
+#warroom button,
+#warroom input {
+  font: inherit;
+  color: inherit;
+}
+
+#warroom .stage {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+}
+
+#warroom .label-layer { overflow: hidden; }
+
+#warroom [hidden] { display: none !important; }
+
+#warroom .drawer {
+  position: absolute;
+  z-index: 4;
+  top: 66px;
+  right: 16px;
+  width: min(380px, calc(100% - 32px));
+  max-height: calc(100% - 82px);
+  animation: drawerIn 0.32s cubic-bezier(0.2, 1, 0.3, 1);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+#warroom .drawer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+#warroom .board-switch { display: flex; flex-wrap: wrap; gap: 2px; flex: 1; }
+#warroom .drawer-close {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(28, 36, 48, 0.06);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+#warroom .drawer-close:hover { background: rgba(28, 36, 48, 0.12); }
+#warroom .board-switch button,
+#warroom .langs button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--muted);
+}
+#warroom .board-switch button.is-on,
+#warroom .langs button.is-on { background: #e7f0ff; color: var(--blue); }
+
+#warroom .banner {
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff6e8;
+  color: #8a4b12;
+  box-shadow: var(--shadow);
+}
+
+#warroom .card {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+#warroom .topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+}
+
+#warroom .brand { display: flex; flex-direction: column; min-width: 140px; }
+#warroom .wordmark { font-size: 20px; letter-spacing: -0.04em; }
+#warroom .tagline { color: var(--muted); font-size: 12px; }
+
+#warroom .search {
+  flex: 1;
+  border: 1px solid #d5e2f2;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  padding: 8px 14px;
+  outline: none;
+}
+
+#warroom .live { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+#warroom .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1fbf75;
+  box-shadow: 0 0 0 0 rgba(31, 191, 117, 0.7);
+  animation: live 1.8s ease-out infinite;
+}
+
+#warroom .langs { display: flex; gap: 4px; }
+#warroom .langs button,
+#warroom .text-btn,
+#warroom .tool,
+#warroom .kpi,
+#warroom .roster-card,
+#warroom .backdrop {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+#warroom .langs button {
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--muted);
+}
+#warroom .langs button.is-on { background: #e7f0ff; color: var(--blue); }
+
+#warroom .kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+#warroom .token { grid-column: 1 / -1; }
+
+#warroom .kpi,
+#warroom .token {
+  text-align: left;
+  background: #f4f7fb;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 10px 12px;
+}
+
+#warroom .kpi-label,
+#warroom .eyebrow {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+#warroom .kpi-value { font-size: 26px; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+#warroom h2, #warroom h3 { margin: 0 0 6px; font-weight: 650; }
+#warroom p { margin: 0 0 8px; }
+#warroom .muted, #warroom .hint { color: var(--muted); }
+
+#warroom .meter {
+  position: relative;
+  height: 8px;
+  margin: 8px 0 4px;
+  border-radius: 99px;
+  background: #e4edf7;
+  overflow: visible;
+}
+#warroom .meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+#warroom .band-70 .meter-fill { background: #e6b325; }
+#warroom .band-85 .meter-fill { background: #f07a32; }
+#warroom .band-100 .meter-fill { background: #e23d3d; }
+#warroom .band-120 .meter-fill { background: #9d1230; }
+#warroom .meter i {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 14px;
+  background: #8aa0bb;
+}
+#warroom .token-scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; }
+
+#warroom .toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 52px;
+  padding: 8px;
+}
+#warroom .tool {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  color: #6d82a0;
+  display: grid;
+  place-items: center;
+}
+
+#warroom .detail { overflow: auto; }
+#warroom .plain { margin: 0 0 8px; padding-left: 16px; }
+#warroom .text-btn { color: var(--blue); padding: 0; margin: 4px 8px 4px 0; }
+
+#warroom .bar {
+  height: 8px;
+  border-radius: 99px;
+  background: #e4edf7;
+  overflow: hidden;
+}
+#warroom .bar span { display: block; height: 100%; background: var(--blue); }
+
+#warroom .squad-row { display: flex; gap: 8px; }
+#warroom .squad {
+  flex: 1;
+  border-top: 3px solid var(--blue);
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+#warroom .phases {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+}
+#warroom .phase {
+  flex: 1;
+  min-width: 68px;
+  border-radius: 12px;
+  padding: 6px;
+  background: #f4f7fb;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#warroom .phase-id { font-size: 11px; color: var(--muted); }
+#warroom .phase.is-active { background: #e7f0ff; box-shadow: inset 0 0 0 1px #9cbcf6; }
+#warroom .phase.is-done { background: #eef8f2; }
+#warroom .phase em { font-style: normal; color: var(--blue); font-size: 11px; }
+
+#warroom .feed-list { max-height: 280px; overflow: auto; display: flex; flex-direction: column; gap: 6px; }
+#warroom .feed-row { display: flex; justify-content: space-between; gap: 8px; margin: 0; }
+#warroom .feed-text { min-width: 0; }
+#warroom .feed-row time { color: var(--muted); white-space: nowrap; font-size: 12px; }
+#warroom .feed-row.is-urgent { color: #b42318; font-weight: 650; }
+
+#warroom .dock-list { display: flex; flex-direction: column; gap: 6px; }
+#warroom .dock-row { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; }
+#warroom .pill {
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: #eef3f9;
+  color: var(--muted);
+  font-size: 12px;
+}
+#warroom .pill.is-hot { background: #e7f0ff; color: var(--blue); }
+#warroom .pill.is-urgent, #warroom .is-urgent { background: #fde8e8; color: #b42318; }
+#warroom .pill.is-asleep { background: #eceff3; color: #6b7380; }
+
+#warroom .avatar-label,
+#warroom .zone-label {
+  pointer-events: auto;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.3s ease, color 0.3s ease;
+}
+#warroom .avatar-label {
+  --tone: #2f6fed;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 5px;
+  padding: 3px 8px 5px;
+  color: #1c2430;
+  background: rgba(255, 253, 248, 0.94);
+  border: 1px solid rgba(28, 36, 48, 0.06);
+  border-left: 3px solid var(--tone);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(60, 44, 24, 0.14);
+  font-size: 11px;
+  line-height: 1.25;
+}
+#warroom .avatar-label strong { grid-column: 1 / -1; font-weight: 650; }
+#warroom .avatar-label span { grid-column: 1 / -1; color: #7d7468; font-size: 10px; display: flex; align-items: center; gap: 4px; }
+#warroom .avatar-label span::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9aa3af;
+}
+#warroom .avatar-label[data-status="working"] span::before { background: #3d9a6a; box-shadow: 0 0 0 3px rgba(61, 154, 106, 0.18); }
+#warroom .avatar-label[data-status="reviewing"] span::before { background: #d45d8c; }
+#warroom .avatar-label[data-status="meeting"] span::before,
+#warroom .avatar-label[data-status="huddle"] span::before { background: #f2a54a; animation: blink 1s ease-in-out infinite; }
+#warroom .avatar-label[data-status="dm"] span::before { background: #4d8dff; animation: blink 1s ease-in-out infinite; }
+#warroom .avatar-label i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 3px;
+  margin-top: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--tone) calc(var(--p, 0) * 100%), rgba(28, 36, 48, 0.1) 0);
+}
+#warroom .avatar-label:hover,
+#warroom .avatar-label.is-hot { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(60, 44, 24, 0.24); }
+#warroom .avatar-label.is-dm::after {
+  content: attr(data-dm);
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  background: #2f6fed;
+  color: white;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px;
+  text-align: center;
+}
+#warroom .avatar-label.is-suspended { filter: grayscale(1); opacity: 0.7; }
+
+#warroom .zone-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 3px 10px 4px;
+  color: #4f4335;
+  background: rgba(255, 253, 248, 0.72);
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(60, 44, 24, 0.08);
+  backdrop-filter: blur(6px);
+}
+#warroom .zone-label strong { font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+#warroom .zone-label span { font-size: 10px; color: #8a7a66; font-variant-numeric: tabular-nums; }
+#warroom .zone-label span:empty { display: none; }
+#warroom .zone-label:hover,
+#warroom .zone-label.is-hot { transform: scale(1.08); background: rgba(255, 253, 248, 0.96); }
+
+#warroom .bubble {
+  --tone: #2f6fed;
+  max-width: 220px;
+  padding: 6px 10px;
+  color: #1c2430;
+  background: #fffdf8;
+  border-radius: 12px 12px 12px 3px;
+  border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent);
+  box-shadow: 0 10px 26px rgba(40, 30, 18, 0.2);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px) scale(0.92);
+  transform-origin: bottom left;
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+#warroom .bubble.is-on { opacity: 1; transform: none; }
+#warroom .bubble.is-urgent { background: #c4493c; color: white; border-color: #ff8a7a; box-shadow: 0 0 0 4px rgba(196, 73, 60, 0.25), 0 10px 26px rgba(120, 20, 10, 0.35); }
+
+#warroom .hud {
+  position: absolute;
+  z-index: 3;
+  color: #2b2219;
+  background: rgba(255, 252, 246, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(60, 44, 24, 0.12);
+  backdrop-filter: blur(14px) saturate(1.2);
+  transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+#warroom .hud-brand {
+  top: 16px;
+  left: 16px;
+  width: min(430px, calc(100% - 32px));
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#warroom .brand-head { display: flex; align-items: baseline; gap: 10px; }
+#warroom .wordmark { font-size: 20px; font-weight: 750; letter-spacing: -0.04em; }
+#warroom .team { color: #7d7064; font-size: 12px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#warroom .live { display: flex; align-items: center; gap: 6px; color: #7d7064; font-size: 11px; font-variant-numeric: tabular-nums; }
+#warroom .rail { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 0; padding: 0; list-style: none; }
+#warroom .rail li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 0 0;
+  font-size: 10px;
+  color: #a0948a;
+  border-top: 3px solid rgba(43, 34, 25, 0.12);
+}
+#warroom .rail b { font-size: 10px; }
+#warroom .rail span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#warroom .rail li.is-done { color: #3d9a6a; border-top-color: #3d9a6a; }
+#warroom .rail li.is-active { color: #2f6fed; border-top-color: #2f6fed; font-weight: 650; }
+#warroom .rail li.is-active::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2f6fed;
+  box-shadow: 0 0 0 0 rgba(47, 111, 237, 0.6);
+  animation: ping 1.6s ease-out infinite;
+}
+#warroom .stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 0 0 6px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+#warroom .stat { display: flex; flex-direction: column; }
+#warroom .stat small { font-size: 10px; color: #8a7d70; }
+#warroom .stat b { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+#warroom .stat.is-warm b { color: #d4893a; }
+#warroom .stat.is-hot b { color: #c4493c; }
+#warroom .gauge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #2f6fed calc(var(--p) * 100%), rgba(43, 34, 25, 0.1) 0);
+}
+#warroom .gauge.is-warm { background: linear-gradient(90deg, #d4893a calc(var(--p) * 100%), rgba(43, 34, 25, 0.1) 0); }
+#warroom .gauge.is-hot { background: linear-gradient(90deg, #c4493c calc(var(--p) * 100%), rgba(43, 34, 25, 0.1) 0); }
+
+#warroom .hud-tools {
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  border-radius: 999px;
+}
+#warroom .hud-tools .tool,
+#warroom .hud-tools .langs button {
+  width: auto;
+  height: 32px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+#warroom .hud-tools .tool:hover,
+#warroom .hud-tools .langs button:hover { background: rgba(43, 34, 25, 0.07); }
+#warroom .hud-tools .tool.is-on,
+#warroom .hud-tools .langs button.is-on { background: #2b2219; color: #fffaf2; }
+#warroom .hud-tools .langs { margin-left: 4px; padding-left: 6px; border-left: 1px solid rgba(43, 34, 25, 0.12); }
+
+#warroom .hud-ticker {
+  left: 16px;
+  bottom: 16px;
+  width: min(380px, calc(100% - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+#warroom .tick {
+  --tone: #8a93a3;
+  display: grid;
+  grid-template-columns: 8px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  background: rgba(255, 252, 246, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 18px rgba(60, 44, 24, 0.1);
+  color: #2b2219;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  animation: tickIn 0.45s cubic-bezier(0.2, 1.2, 0.4, 1);
+  transition: transform 0.2s ease;
+}
+#warroom .tick:hover { transform: translateX(4px); }
+#warroom .tick i { width: 8px; height: 8px; border-radius: 50%; background: var(--tone); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone) 22%, transparent); }
+#warroom .tick span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#warroom .tick time { color: #9a8e82; font-size: 11px; }
+#warroom .tick:nth-last-child(4) { opacity: 0.45; }
+#warroom .tick:nth-last-child(3) { opacity: 0.7; }
+#warroom .tick.is-urgent { background: #c4493c; color: white; }
+#warroom .tick.is-urgent time { color: rgba(255, 255, 255, 0.8); }
+
+#warroom .hud-dock {
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 820px);
+  min-width: 520px;
+  padding: 6px;
+  border-radius: 18px;
+}
+#warroom .room {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px 0 6px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+#warroom .room:hover { background: rgba(43, 34, 25, 0.07); transform: translateY(-2px); }
+#warroom .room kbd {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(43, 34, 25, 0.08);
+  font: 600 10px ui-monospace, Consolas, monospace;
+}
+#warroom .room.is-on { background: #2f6fed; color: white; }
+#warroom .room.is-on kbd { background: rgba(255, 255, 255, 0.22); }
+#warroom .room.is-live kbd { background: #f2a54a; color: white; animation: blink 1.2s ease-in-out infinite; }
+#warroom .room.is-alert { background: #c4493c; color: white; animation: blink 0.8s ease-in-out infinite; }
+#warroom .keys { width: 100%; margin: 2px 0 0; text-align: center; color: #9a8e82; font-size: 10px; }
+
+#warroom.is-night .hud,
+#warroom.is-night .tick {
+  color: #e8eef7;
+  background: rgba(16, 22, 32, 0.72);
+  border-color: rgba(120, 150, 200, 0.18);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4);
+}
+#warroom.is-night .hud-ticker { background: transparent; border: 0; box-shadow: none; }
+#warroom.is-night .team,
+#warroom.is-night .live,
+#warroom.is-night .stat small,
+#warroom.is-night .tick time,
+#warroom.is-night .keys { color: #8d9bb0; }
+#warroom.is-night .rail li { border-top-color: rgba(200, 215, 240, 0.14); color: #6f7d92; }
+#warroom.is-night .rail li.is-done { color: #5cc48c; border-top-color: #5cc48c; }
+#warroom.is-night .rail li.is-active { color: #7aa8ff; border-top-color: #7aa8ff; }
+#warroom.is-night .hud-tools .tool.is-on,
+#warroom.is-night .hud-tools .langs button.is-on { background: #e8eef7; color: #101620; }
+#warroom.is-night .hud-tools .tool:hover,
+#warroom.is-night .room:hover { background: rgba(200, 215, 240, 0.1); }
+#warroom.is-night .room kbd { background: rgba(200, 215, 240, 0.12); }
+#warroom.is-night .zone-label { color: #e8eef7; background: rgba(16, 22, 32, 0.62); box-shadow: 0 0 0 1px rgba(120, 150, 200, 0.2); }
+#warroom.is-night .zone-label span { color: #9fb2cc; }
+#warroom.is-night .avatar-label { background: rgba(20, 28, 40, 0.9); color: #eef3fa; border-color: rgba(120, 150, 200, 0.2); border-left-color: var(--tone); box-shadow: 0 0 16px color-mix(in srgb, var(--tone) 35%, transparent); }
+#warroom.is-night .avatar-label span { color: #9fb2cc; }
+#warroom.is-night .drawer { background: rgba(250, 251, 253, 0.94); }
+
+#warroom .overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+#warroom .backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 38, 61, 0.28);
+  pointer-events: auto;
+}
+#warroom .sheet {
+  position: relative;
+  width: min(640px, calc(100% - 32px));
+  max-height: min(78vh, 720px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+#warroom .sheet-head, #warroom .sheet-body { padding: 14px 16px; }
+#warroom .sheet-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e8eef6; }
+#warroom .sheet-body { overflow: auto; }
+#warroom .script { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+#warroom .script li { padding-bottom: 8px; border-bottom: 1px solid #eef2f7; }
+#warroom .line-enter { animation: type 1.1s steps(28, end); }
+#warroom .roster { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#warroom .roster-card {
+  text-align: left;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f5f8fc;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#warroom .monitor {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 12px;
+  background: #101826;
+  color: #d6e4f5;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+#warroom .flat { margin: 16px; overflow: auto; }
+#warroom .flat-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+#warroom .flat-zone { background: rgba(255, 255, 255, 0.72); border-radius: 12px; padding: 8px; }
+
+#warroom.is-alert .stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(180, 35, 24, 0.55);
+  animation: alertPulse 1s ease-in-out infinite;
+}
+
+@keyframes live {
+  0% { box-shadow: 0 0 0 0 rgba(31, 191, 117, 0.55); }
+  100% { box-shadow: 0 0 0 8px rgba(31, 191, 117, 0); }
+}
+@keyframes type {
+  from { max-height: 0; opacity: 0; }
+  to { max-height: 80px; opacity: 1; }
+}
+@keyframes alertPulse {
+  50% { box-shadow: inset 0 0 40px rgba(180, 35, 24, 0.2); }
+}
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 rgba(47, 111, 237, 0.55); }
+  100% { box-shadow: 0 0 0 9px rgba(47, 111, 237, 0); }
+}
+@keyframes blink {
+  50% { opacity: 0.45; }
+}
+@keyframes tickIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+@keyframes drawerIn {
+  from { opacity: 0; transform: translateX(28px); }
+}
+
+@media (max-width: 1280px) {
+  #warroom .hud-dock { left: auto; right: 16px; transform: none; max-width: calc(100% - 430px); min-width: 0; }
+  #warroom .keys { display: none; }
+}
+
+@media (max-width: 840px) {
+  #warroom .hud-brand { width: calc(100% - 32px); }
+  #warroom .hud-tools { top: auto; bottom: 64px; right: 16px; }
+  #warroom .hud-ticker { display: none; }
+  #warroom .hud-dock { left: 16px; right: 16px; max-width: none; flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; }
+  #warroom .drawer { top: auto; bottom: 12px; max-height: 58%; }
+  #warroom .kpis { grid-template-columns: 1fr 1fr; }
+  #warroom .token { grid-column: 1 / -1; }
+  #warroom .flat-board, #warroom .roster { grid-template-columns: 1fr; }
+}

@@ -1,40 +1,96 @@
 # troupe — Your AI Engineering Troupe
 
-> A real-time "war room" that visualizes an AI engineering team at work — like NASA mission control for agents.
+> A real-time war room for an all-AI engineering team. NASA mission control, drawn as a light isometric base.
 
-*Troupe* means a company of performers. English *company* doubles as "business / theater troupe": the war room is the theater, every panel is a live scene — review meetings, daily standups, a member's work in progress. Click any panel to watch the story unfold.
+*Troupe* is a company of performers. English *company* doubles as "business / theater troupe": the war room is the theater, and every panel is a live scene. Click a panel and the scene plays out — a review sitting, a standup, one person's work.
 
-The bigger vision is a **drop-in AI engineering team**: swap one `team.config.json` and the whole troupe re-forms for any team. Seeing your AI team work for you *is* the membership pitch.
+Swap one `team.config.json` and the same floor serves another team. That is the drop-in pitch.
 
 [中文文档](README.zh-CN.md)
 
-## Layout: company first, projects second
+## Run it locally
+
+From the repository root:
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://127.0.0.1:5173/. The page boots on the simulated director, so it does not need a backend, a login, or a network call to three.js (the library is bundled).
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+`npm run build` writes `projects/warroom/app/dist`.
+
+The floor follows the browser language (`zh*` → zh-CN, otherwise English) and falls back to English when a key is missing. The EN / 中文 control in the top bar switches immediately.
+
+If WebGL is missing, the page stays up: a banner explains it, and the zones render as a flat board. Append `?nowebgl=1` to see that path on a machine that does have WebGL.
+
+## Point it at another team
+
+All organization data lives in one file:
+
+`projects/warroom/app/team.config.json`
+
+It holds the troupe name, members, squads, stations, zones, phases, review script, standup lines, the private thread, sign-off, scores, token thresholds, and the opening numbers. `packages/team-config` checks the shape at boot. A broken file renders the error list inside `#warroom` instead of a blank page.
+
+Keep member `id`s stable. `aliases` is how a console event such as `actor: "架构师"` finds the right person. Put user-facing prose in `{ "en", "zh-CN" }` fields. UI chrome (button labels, panel titles) stays in `projects/warroom/app/src/i18n/en.json` and `zh-CN.json`.
+
+## Event schema
+
+The whole floor reads one bus:
+
+```ts
+window.TeamEvents.push({
+  type: 'task_done',
+  actor: '架构师',
+  action: '提交 ADR-002',
+  ts: Date.now(),
+});
+```
+
+The feed, the architect's task, and the asset count update from that call. Nothing in the panels writes team data on its own timer.
+
+Covered types: `task_started`, `task_progress`, `task_done`, `task_handoff`, `review_comment`, `meeting_speech`, `dm_message`, `member_online`, `member_offline`, `member_pose`, `phase_changed`, `report_standup`, `report_weekly`, `version_signoff`, `alignment_done`, `review_score`, `cost_report`, `budget_alert`, `escalation_urgent`, `alert_cleared`, `scene_cue`.
+
+`escalation_urgent` carries `payload.level` of `P0` or `P1`. A private thread (`dm_message`) is stored in `payload.text` and the public feed only says that the two people are talking.
+
+The full table is in [docs/en/EVENT-SCHEMA.md](docs/en/EVENT-SCHEMA.md).
+
+## Where a real agent source plugs in
+
+`packages/team-events/src/realtime-adapter.ts` is the empty producer. The method bodies are marked `REAL-SOURCE`. Fill `start` with a WebSocket or SSE client that calls `push` for each frame, and `stop` with the close.
+
+Turn it on from `projects/warroom/app/src/main.ts`:
+
+```ts
+bus.setAdapter(new RealtimeAdapter());
+```
+
+Do not start `SimulationEngine` in that mode. The scene and the panels subscribe to the bus either way, so they do not change.
+
+## Layout
 
 ```
 troupe/
-├── projects/                  # One directory per project — each with its own
-│   ├── paper/                 #   team, milestones, deliverables, docs
-│   │   ├── PROJECT.md         #   overview: goal / status / current milestone
-│   │   ├── team/              #   staffing for this project (dev only)
-│   │   ├── milestones/        #   p0→p6: STATUS.md + per-phase output (dev only)
-│   │   ├── deliverables/      #   shippable artifacts (dev only)
-│   │   └── docs/              #   project docs, en + zh-CN
-│   └── warroom/               # (same layout)
-│       └── app/               #   the war-room frontend itself (public)
-├── crew/                      # company-level: performer roster & behavior (dev only)
-├── packages/                  # company-level: shared tech (event bus, sim engine)
-├── docs/                      # company-level: bilingual team docs
+├── projects/paper/          Paper, the troupe's first product
+├── projects/warroom/app/    this floor (public, runs out of the box)
+├── crew/                    performer scripts (dev branch only)
+├── packages/                event bus, config checks, simulation
+└── docs/                    bilingual company docs
 ```
 
-Semi-open source: `main` is the clean public face (runnable product + overviews + public docs); `dev` holds the full internals (`crew/`, per-project `team/`, `milestones/`, `deliverables/`). See [CONTRIBUTING.md](CONTRIBUTING.md).
+Company first, projects second. Dependencies run `projects → packages` only.
 
-## Branches
+`main` is the public face: the app, `packages/`, project `PROJECT.md` files, public docs, and this README. It does not carry `crew/`, or any project's `team/`, `milestones/`, or `deliverables/`. Those live on `dev`. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- `main` — public face, stable
-- `dev` — full internals, daily integration
-- `release` — snapshots of `main`, tagged
-- `feature/*` — cut from `dev`, merged back into `dev`
+## What you are watching
 
-## Contributing
+The director in `packages/simulation` plays a loop: standup, a private thread that fails to close, a huddle of only the people involved, a slice of the 39 review comments, chips moving design → build → test → review → release, the Friday note, version sign-off, and two-way scoring. Token spend steps through 70 / 85 / 100 / 120. At 120 the stop-work plan turns the company dormant, then reinstates them. Every other cycle raises a red alert and holds the next scene until it clears.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). In short: **commits in English**, docs bilingual (en + zh-CN), never commit `crew/`, per-project `team/`, `milestones/`, `deliverables/` to `main`.
+Avatars walk inside their own zone. Cross-zone work is a chip, not a commute.

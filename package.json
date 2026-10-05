@@ -1,0 +1,24 @@
+{
+  "name": "troupe",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Real-time war room for an AI engineering troupe",
+  "workspaces": [
+    "packages/*",
+    "projects/warroom/app"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @troupe/warroom",
+    "build": "npm run build -w @troupe/warroom",
+    "lint": "npm run lint -w @troupe/warroom",
+    "typecheck": "npm run typecheck -w @troupe/team-events && npm run typecheck -w @troupe/team-config && npm run typecheck -w @troupe/simulation && npm run typecheck -w @troupe/warroom"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0"
+  }
+}

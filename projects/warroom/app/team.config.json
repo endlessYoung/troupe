@@ -1,1 +1,347 @@
-{"chairman":"人类董事长（不在场景中干活，指挥台署名）","members":[{"duty":"统筹/执行/汇报","id":"main-agent","role":"主Agent","station":"指挥台"},{"duty":"需求池、路线图","id":"product-manager","role":"产品经理","station":"规划区"},{"duty":"项目计划 P1–P6、风险清单","id":"project-manager","role":"项目经理","station":"指挥台侧翼"},{"duty":"ADR、技术栈、模块划分","id":"architect","role":"架构师","station":"设计区"},{"duty":"测试计划、用例、质量门禁","id":"qa-engineer","role":"测试工程师","station":"测试区"},{"duty":"视觉评审","id":"reviewer-visual","role":"视觉评审官","station":"质检区"},{"duty":"产品评审","id":"reviewer-product","role":"产品评审官","station":"质检区"},{"duty":"交互评审","id":"reviewer-interaction","role":"交互评审官","station":"质检区"}],"phases":[{"id":"p0","name":"立项","status":"done"},{"id":"p1","name":"规划","status":"active"},{"id":"p2","name":"设计","status":"done"},{"id":"p3","name":"实现","status":"todo"},{"id":"p4","name":"测试","status":"todo"},{"id":"p5","name":"发布","status":"todo"},{"id":"p6","name":"复盘","status":"todo"}],"stations":["需求池","设计","评审","实现","测试","发布","指挥台"],"stats":{"adr":["ADR-001《模块划分》"],"backlog_p0":28,"backlog_total":35,"cross_platform":"选项 C（Android 先行）","mvp_scope":"写 + 管","review_closed":"39/39","test_cases":40},"tagline":"你的 AI 工程剧团","team":"Paper AI 工程队","todos":["项目经理假设 A3 待董事长确认","GitHub paper 仓库待创建"]}
+{
+  "team": { "id": "paper-ai", "name": { "en": "Paper AI Engineering Team", "zh-CN": "Paper AI 工程队" } },
+  "tagline": { "en": "Your AI engineering troupe", "zh-CN": "你的 AI 工程剧团" },
+  "chairman": {
+    "id": "chairman",
+    "name": { "en": "Chairman", "zh-CN": "董事长" },
+    "note": { "en": "Human. Signs the command deck. Does not work the floor.", "zh-CN": "人类。指挥台署名。不在场上干活。" }
+  },
+  "squads": [
+    {
+      "id": "product",
+      "name": { "en": "Product squad", "zh-CN": "产品小队" },
+      "color": "#8b7cf6",
+      "lead": "product-manager",
+      "members": ["product-manager", "project-manager", "reviewer-product", "reviewer-visual", "reviewer-interaction"]
+    },
+    {
+      "id": "engineering",
+      "name": { "en": "Engineering squad", "zh-CN": "工程小队" },
+      "color": "#5b9bff",
+      "lead": "architect",
+      "members": ["main-agent", "architect", "qa-engineer"]
+    }
+  ],
+  "members": [
+    {
+      "id": "main-agent",
+      "role": { "en": "Lead Agent", "zh-CN": "主Agent" },
+      "aliases": ["主Agent", "Lead Agent", "main-agent"],
+      "duty": { "en": "Coordinate, execute, and report", "zh-CN": "统筹、执行、汇报" },
+      "station": "command",
+      "zone": "command",
+      "squad": "engineering",
+      "color": "#2f6fed",
+      "lead": false,
+      "task": { "en": "Keep today's board honest", "zh-CN": "把今天的看板维持诚实" },
+      "progress": 0.35,
+      "output": [{ "en": "Posted the morning board", "zh-CN": "挂出晨间看板" }]
+    },
+    {
+      "id": "product-manager",
+      "role": { "en": "Product Manager", "zh-CN": "产品经理" },
+      "aliases": ["产品经理", "Product Manager", "product-manager"],
+      "duty": { "en": "Backlog and roadmap", "zh-CN": "需求池与路线图" },
+      "station": "backlog",
+      "zone": "planning",
+      "squad": "product",
+      "color": "#7c5cbf",
+      "lead": true,
+      "task": { "en": "Label the seven deferred backlog items", "zh-CN": "给延后的 7 条需求打上标签" },
+      "progress": 0.7,
+      "output": [{ "en": "Froze MVP as Write + Manage", "zh-CN": "MVP 冻结为「写 + 管」" }]
+    },
+    {
+      "id": "project-manager",
+      "role": { "en": "Project Manager", "zh-CN": "项目经理" },
+      "aliases": ["项目经理", "Project Manager", "project-manager"],
+      "duty": { "en": "P1–P6 plan and the risk list", "zh-CN": "P1–P6 计划与风险清单" },
+      "station": "command",
+      "zone": "command",
+      "squad": "product",
+      "color": "#5b7c99",
+      "lead": false,
+      "task": { "en": "Brief assumption A3 for the chairman", "zh-CN": "整理假设 A3，待董事长确认" },
+      "progress": 0.3,
+      "output": [{ "en": "Risk list updated, two open items", "zh-CN": "风险清单已更新，仍有两件未决" }]
+    },
+    {
+      "id": "architect",
+      "role": { "en": "Architect", "zh-CN": "架构师" },
+      "aliases": ["架构师", "Architect", "architect"],
+      "duty": { "en": "ADRs, stack, and module boundaries", "zh-CN": "ADR、技术栈、模块划分" },
+      "station": "design",
+      "zone": "design",
+      "squad": "engineering",
+      "color": "#1f9d8a",
+      "lead": true,
+      "task": { "en": "Annotate ADR-001 module boundaries", "zh-CN": "为 ADR-001 补模块边界备注" },
+      "progress": 0.45,
+      "output": [{ "en": "ADR-001 Module split filed", "zh-CN": "ADR-001《模块划分》已归档" }]
+    },
+    {
+      "id": "qa-engineer",
+      "role": { "en": "QA Engineer", "zh-CN": "测试工程师" },
+      "aliases": ["测试工程师", "测试", "QA Engineer", "qa-engineer"],
+      "duty": { "en": "Test plan, cases, and the quality gate", "zh-CN": "测试计划、用例、质量门禁" },
+      "station": "test",
+      "zone": "test",
+      "squad": "engineering",
+      "color": "#d4893a",
+      "lead": false,
+      "task": { "en": "Trace 40 cases back to requirements", "zh-CN": "把 40 条用例追回需求" },
+      "progress": 0.55,
+      "output": [{ "en": "Test plan drafted, 40 cases", "zh-CN": "测试计划成稿，40 条用例" }]
+    },
+    {
+      "id": "reviewer-visual",
+      "role": { "en": "Visual Reviewer", "zh-CN": "视觉评审官" },
+      "aliases": ["视觉评审官", "Visual Reviewer", "reviewer-visual"],
+      "duty": { "en": "Visual review", "zh-CN": "视觉评审" },
+      "station": "review",
+      "zone": "qc",
+      "squad": "product",
+      "color": "#d45d8c",
+      "lead": false,
+      "task": { "en": "Pre-review the P1 visual pack", "zh-CN": "预审 P1 视觉包" },
+      "progress": 0.8,
+      "output": [{ "en": "Round-two visual notes closed", "zh-CN": "第二轮视觉意见已关闭" }]
+    },
+    {
+      "id": "reviewer-product",
+      "role": { "en": "Product Reviewer", "zh-CN": "产品评审官" },
+      "aliases": ["产品评审官", "Product Reviewer", "reviewer-product"],
+      "duty": { "en": "Product review", "zh-CN": "产品评审" },
+      "station": "review",
+      "zone": "qc",
+      "squad": "product",
+      "color": "#6a5acd",
+      "lead": false,
+      "task": { "en": "Check the frozen Write + Manage scope", "zh-CN": "核对已冻结的「写 + 管」范围" },
+      "progress": 0.6,
+      "output": [{ "en": "Scope sentence signed", "zh-CN": "范围句子已签" }]
+    },
+    {
+      "id": "reviewer-interaction",
+      "role": { "en": "Interaction Reviewer", "zh-CN": "交互评审官" },
+      "aliases": ["交互评审官", "Interaction Reviewer", "reviewer-interaction"],
+      "duty": { "en": "Interaction review", "zh-CN": "交互评审" },
+      "station": "review",
+      "zone": "qc",
+      "squad": "product",
+      "color": "#3aa0c9",
+      "lead": false,
+      "task": { "en": "Specify the Android back stack", "zh-CN": "写清 Android 返回栈" },
+      "progress": 0.5,
+      "output": [{ "en": "Back gesture note closed", "zh-CN": "返回手势意见已关闭" }]
+    }
+  ],
+  "stations": [
+    { "id": "backlog", "name": { "en": "Backlog", "zh-CN": "需求池" }, "zone": "planning", "summary": { "en": "35 items. 28 are P0. The pool lives here.", "zh-CN": "35 条需求，其中 P0 28 条。池子在这里。" } },
+    { "id": "design", "name": { "en": "Design", "zh-CN": "设计" }, "zone": "design", "summary": { "en": "ADR-001 Module split is the asset on this desk.", "zh-CN": "这张桌上的资产是 ADR-001《模块划分》。" } },
+    { "id": "review", "name": { "en": "Review", "zh-CN": "评审" }, "zone": "qc", "summary": { "en": "Three reviewers, two rounds, 39 of 39 comments closed.", "zh-CN": "三位评审官，两轮，39/39 条意见全部闭环。" } },
+    { "id": "build", "name": { "en": "Build", "zh-CN": "实现" }, "zone": "build", "summary": { "en": "No resident engineer. Work arrives as chips.", "zh-CN": "没有常驻工程师。活以芯片形式流进来。" } },
+    { "id": "test", "name": { "en": "Test", "zh-CN": "测试" }, "zone": "test", "summary": { "en": "40 cases planned. They have not been executed.", "zh-CN": "40 条用例在计划层。还没有执行。" } },
+    { "id": "release", "name": { "en": "Release", "zh-CN": "发布" }, "zone": "release", "summary": { "en": "The gate opens only after the chairman signs.", "zh-CN": "董事长敲定通过，闸门才开。" } },
+    { "id": "command", "name": { "en": "Command", "zh-CN": "指挥台" }, "zone": "command", "summary": { "en": "Lead Agent on the dais. Project Manager on the flank. Signed by the Chairman.", "zh-CN": "主Agent 在高台。项目经理在侧翼。董事长署名。" } }
+  ],
+  "zones": [
+    { "id": "inception", "name": { "en": "Inception", "zh-CN": "立项" }, "phase": "p0", "squad": "engineering" },
+    { "id": "planning", "name": { "en": "Planning", "zh-CN": "规划" }, "phase": "p1", "squad": "product" },
+    { "id": "design", "name": { "en": "Design", "zh-CN": "设计" }, "phase": "p2", "squad": "engineering" },
+    { "id": "build", "name": { "en": "Build", "zh-CN": "实现" }, "phase": "p3", "squad": "engineering" },
+    { "id": "test", "name": { "en": "Test", "zh-CN": "测试" }, "phase": "p4", "squad": "engineering" },
+    { "id": "qc", "name": { "en": "Quality gate", "zh-CN": "质检" }, "phase": "p4", "squad": "product" },
+    { "id": "release", "name": { "en": "Release", "zh-CN": "发布" }, "phase": "p5", "squad": "product" },
+    { "id": "command", "name": { "en": "Command", "zh-CN": "指挥" }, "phase": "p1", "squad": "engineering" }
+  ],
+  "phases": [
+    { "id": "p0", "name": { "en": "Inception", "zh-CN": "立项" }, "status": "done" },
+    { "id": "p1", "name": { "en": "Planning", "zh-CN": "规划" }, "status": "active" },
+    { "id": "p2", "name": { "en": "Design", "zh-CN": "设计" }, "status": "todo" },
+    { "id": "p3", "name": { "en": "Build", "zh-CN": "实现" }, "status": "todo" },
+    { "id": "p4", "name": { "en": "Test", "zh-CN": "测试" }, "status": "todo" },
+    { "id": "p5", "name": { "en": "Release", "zh-CN": "发布" }, "status": "todo" },
+    { "id": "p6", "name": { "en": "Retro", "zh-CN": "复盘" }, "status": "todo" }
+  ],
+  "stats": {
+    "reviewClosed": 39,
+    "reviewTotal": 39,
+    "backlogTotal": 35,
+    "backlogP0": 28,
+    "testCases": 40,
+    "mvpScope": { "en": "Write + Manage", "zh-CN": "写 + 管" },
+    "crossPlatform": { "en": "Option C — Android first", "zh-CN": "选项 C（Android 先行）" },
+    "adr": [{ "id": "ADR-001", "title": { "en": "Module split", "zh-CN": "模块划分" } }]
+  },
+  "todos": [
+    { "en": "Assumption A3 is waiting on the chairman", "zh-CN": "项目经理假设 A3 待董事长确认" },
+    { "en": "The paper GitHub repo is not created yet", "zh-CN": "GitHub paper 仓库待创建" }
+  ],
+  "assets": [
+    { "id": "adr-001", "title": { "en": "ADR-001 Module split", "zh-CN": "ADR-001《模块划分》" } },
+    { "id": "mvp", "title": { "en": "MVP scope freeze: Write + Manage", "zh-CN": "MVP 范围冻结：写 + 管" } },
+    { "id": "option-c", "title": { "en": "Cross-platform option C", "zh-CN": "跨端方案选项 C" } },
+    { "id": "backlog", "title": { "en": "Backlog, 35 items", "zh-CN": "需求池 35 条" } },
+    { "id": "test-plan", "title": { "en": "Test plan, 40 cases", "zh-CN": "测试计划 40 用例" } },
+    { "id": "reviews", "title": { "en": "Two review rounds, 39/39 closed", "zh-CN": "两轮评审 39/39 闭环" } }
+  ],
+  "reviewAgenda": {
+    "en": "P1 planning pack: scope sentence, backlog split, ADR-001, Android-first path.",
+    "zh-CN": "P1 规划包：范围句子、需求拆分、ADR-001、Android 先行路径。"
+  },
+  "standup": [
+    { "actor": "main-agent", "line": { "en": "Today we close the P1 planning pack. Scope stays frozen.", "zh-CN": "今天只收 P1 规划包。范围不放。" } },
+    { "actor": "product-manager", "line": { "en": "Thirty-five in the pool. Twenty-eight P0s are aligned. The other seven sit past P2.", "zh-CN": "池子里 35 条。P0 的 28 条对齐了。另外 7 条放到 P2 之后。" } },
+    { "actor": "project-manager", "line": { "en": "Assumption A3 is still with the chairman. The paper repo does not exist yet.", "zh-CN": "假设 A3 还在董事长那儿。paper 仓库到现在还没建。" } },
+    { "actor": "architect", "line": { "en": "ADR-001 again: editor, preview, vault, shell. Nobody reaches into anyone else.", "zh-CN": "ADR-001 再念一遍：编辑、预览、文库、壳。谁也不许伸手进别人的模块。" } },
+    { "actor": "qa-engineer", "line": { "en": "Forty cases are a plan. We will not talk as if they already ran.", "zh-CN": "40 条用例还是计划。别说得好像已经测过。" } }
+  ],
+  "weekly": {
+    "actor": "project-manager",
+    "line": {
+      "en": "Friday note: still on P1. Reviews 39/39. Blocked on A3 and the paper repo. No new red-line risk.",
+      "zh-CN": "周五纪要：还在 P1。评审 39/39。卡在 A3 和 paper 仓库。没有新的红线风险。"
+    }
+  },
+  "dms": [
+    {
+      "from": "architect",
+      "to": "qa-engineer",
+      "text": {
+        "en": "Case 12 lets preview read editor internals. That breaks ADR-001. Assert on the public render only.",
+        "zh-CN": "用例 12 让预览去读编辑器内部状态，这破了 ADR-001。只断言公开渲染结果。"
+      }
+    }
+  ],
+  "huddle": {
+    "attendees": ["architect", "qa-engineer", "main-agent"],
+    "outcome": {
+      "en": "Settled. QA asserts the public render. Architect adds one ADR note tonight.",
+      "zh-CN": "说定了。测试只断言公开渲染结果。架构师今晚补一句 ADR 备注。"
+    }
+  },
+  "signoff": {
+    "summary": {
+      "en": "P1 pack: Write + Manage, option C, ADR-001, reviews 39/39. Requesting the chairman's decision.",
+      "zh-CN": "P1 包：写 + 管、选项 C、ADR-001、评审 39/39。请董事长敲定。"
+    },
+    "present": {
+      "en": "Lead Agent presents the pack to the chairman.",
+      "zh-CN": "主Agent 把包呈到董事长面前。"
+    },
+    "approved": {
+      "en": "Chairman signs it through. The release gate may open.",
+      "zh-CN": "董事长敲定通过。发布闸门可以开。"
+    },
+    "rejected": {
+      "en": "Chairman sends it back. The gate stays shut.",
+      "zh-CN": "董事长打回。闸门不开。"
+    }
+  },
+  "scores": [
+    { "from": "project-manager", "to": "product-manager", "score": 4, "axis": "up" },
+    { "from": "product-manager", "to": "project-manager", "score": 5, "axis": "down" },
+    { "from": "reviewer-visual", "to": "product-manager", "score": 5, "axis": "up" },
+    { "from": "product-manager", "to": "reviewer-visual", "score": 4, "axis": "down" },
+    { "from": "qa-engineer", "to": "architect", "score": 5, "axis": "up" },
+    { "from": "architect", "to": "qa-engineer", "score": 4, "axis": "down" },
+    { "from": "product-manager", "to": "architect", "score": 4, "axis": "peer" },
+    { "from": "architect", "to": "product-manager", "score": 5, "axis": "peer" }
+  ],
+  "scoreSummary": {
+    "en": "Lead Agent files the two-way scores and the peer review to the chairman.",
+    "zh-CN": "主Agent 把双向打分和小领导互评汇总，呈给董事长。"
+  },
+  "escalation": [
+    {
+      "level": "P1",
+      "actor": "qa-engineer",
+      "action": {
+        "en": "Preview crash reproduced. It blocks tonight's planning close.",
+        "zh-CN": "预览崩溃复现了，堵住今晚的规划收口。"
+      }
+    },
+    {
+      "level": "P0",
+      "actor": "main-agent",
+      "action": {
+        "en": "Someone added sync out loud. The frozen MVP just got hit.",
+        "zh-CN": "有人嘴里把同步加回来了。冻结的 MVP 被冲了一下。"
+      }
+    }
+  ],
+  "costs": { "budget": 100, "thresholds": [70, 85, 100, 120], "baseline": 62 },
+  "docks": {
+    "reviewer-visual": { "status": "reviewing", "progress": 4, "total": 5 },
+    "reviewer-product": { "status": "reviewing", "progress": 3, "total": 5 },
+    "reviewer-interaction": { "status": "idle", "progress": 5, "total": 5 }
+  },
+  "handoffs": [
+    {
+      "actor": "architect",
+      "title": { "en": "ADR-001 module map", "zh-CN": "ADR-001 模块图" },
+      "fromZone": "design",
+      "toZone": "build"
+    },
+    {
+      "actor": "main-agent",
+      "title": { "en": "App-shell chip", "zh-CN": "应用壳芯片" },
+      "fromZone": "build",
+      "toZone": "test"
+    },
+    {
+      "actor": "qa-engineer",
+      "title": { "en": "Case pack for the gate", "zh-CN": "门禁用例包" },
+      "fromZone": "test",
+      "toZone": "qc"
+    },
+    {
+      "actor": "reviewer-product",
+      "title": { "en": "Signed review pack", "zh-CN": "已签评审包" },
+      "fromZone": "qc",
+      "toZone": "release"
+    }
+  ],
+  "reviews": [
+    { "id": "r01", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "Editor canvas contrast is too shy on white. Body text disappears beside the caret.", "zh-CN": "白底上编辑区对比不够。正文挨着光标就淡了。" }, "resolution": { "en": "Body ink locked to #1c2430 on #fbfbfa. Closed.", "zh-CN": "正文定成 #1c2430 / 底 #fbfbfa。关闭。" } },
+    { "id": "r02", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "Heading scale is unnamed. H1 and H2 are the same weight in the spec.", "zh-CN": "标题阶梯没名字。规范里 H1 和 H2 一样重。" }, "resolution": { "en": "Four steps only: 28 / 22 / 18 / 16. Closed.", "zh-CN": "只留四级：28 / 22 / 18 / 16。关闭。" } },
+    { "id": "r03", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "Toolbar icons mix 1.5px and 2px strokes.", "zh-CN": "工具栏图标线宽有的 1.5，有的 2，不齐。" }, "resolution": { "en": "All toolbar icons are 24px, 1.75 stroke. Closed.", "zh-CN": "工具栏统一 24px、线宽 1.75。关闭。" } },
+    { "id": "r04", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "The editor/preview split has no default ratio.", "zh-CN": "编辑和预览的分割，没有默认比例。" }, "resolution": { "en": "Preview opens at 42%. Closed.", "zh-CN": "预览默认 42%。关闭。" } },
+    { "id": "r05", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "Empty library wants an illustration. That fights the minimal brief.", "zh-CN": "空文库想加插画。这跟极简立项是反的。" }, "resolution": { "en": "Empty state is one sentence, no illustration. Closed.", "zh-CN": "空状态只留一句话，不加插画。关闭。" } },
+    { "id": "r06", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "File rows are too tall for a phone library.", "zh-CN": "文件行太高，手机上的文库塞不下。" }, "resolution": { "en": "Row height 56, title plus one meta line. Closed.", "zh-CN": "行高 56，标题加一行元信息。关闭。" } },
+    { "id": "r07", "round": 1, "reviewer": "reviewer-visual", "text": { "en": "Dark theme keeps leaking into MVP mockups.", "zh-CN": "深色主题老是漏进 MVP 稿里。" }, "resolution": { "en": "Dark theme is out of MVP. Mocks updated. Closed.", "zh-CN": "深色主题不进 MVP。稿已改。关闭。" } },
+    { "id": "r08", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Sync still has a nav slot. The scope sentence says Write + Manage only.", "zh-CN": "导航里还有同步入口。范围句子只允许写和管。" }, "resolution": { "en": "Sync removed from navigation. Closed.", "zh-CN": "同步已从导航拿掉。关闭。" } },
+    { "id": "r09", "round": 1, "reviewer": "reviewer-product", "text": { "en": "35 items vs 28 P0s is unexplained on the roadmap.", "zh-CN": "路线图上 35 和 P0 的 28 对不上，没解释。" }, "resolution": { "en": "The other 7 are labeled deferred, past P2. Closed.", "zh-CN": "另外 7 条标明延后，放到 P2 之后。关闭。" } },
+    { "id": "r10", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Markor's raw UI is the reason we exist, but pains are not tied to ids.", "zh-CN": "我们是因为 Markor 界面太糙才立项的，痛点却没挂到编号上。" }, "resolution": { "en": "Pains map to R-01 through R-35. Closed.", "zh-CN": "痛点映射到 R-01 至 R-35。关闭。" } },
+    { "id": "r11", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Export is neither in nor out. That will get built by accident.", "zh-CN": "导出既没写进范围，也没写出去。这种会被顺手做出来。" }, "resolution": { "en": "Export is explicitly out of MVP. Closed.", "zh-CN": "导出明确不进 MVP。关闭。" } },
+    { "id": "r12", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Folders and tags are both drawn. Pick one for v1.", "zh-CN": "文件夹和标签都画了。v1 只能留一个。" }, "resolution": { "en": "Folders only. Tags are out. Closed.", "zh-CN": "只留文件夹。标签不做。关闭。" } },
+    { "id": "r13", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Is search part of Manage, or a later idea?", "zh-CN": "搜索算「管」，还是以后再说？" }, "resolution": { "en": "Search is in Manage. Title and body. Closed.", "zh-CN": "搜索算「管」。标题和正文。关闭。" } },
+    { "id": "r14", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Editor scroll and preview scroll are unspecified.", "zh-CN": "编辑滚动和预览滚动怎么跟，没写。" }, "resolution": { "en": "Sync on by default, with a disconnect. Closed.", "zh-CN": "默认跟随，允许断开。关闭。" } },
+    { "id": "r15", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Android back vs the library drawer will fight.", "zh-CN": "Android 返回键和文库抽屉会打架。" }, "resolution": { "en": "Back closes the drawer first, then leaves the note. Closed.", "zh-CN": "返回先关抽屉，再退出笔记。关闭。" } },
+    { "id": "r16", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Undo depth is missing. Writers will notice on the first mistake.", "zh-CN": "撤销深度没写。写的人第一次写错就会发现。" }, "resolution": { "en": "Undo stack is 50 steps. Closed.", "zh-CN": "撤销栈 50 步。关闭。" } },
+    { "id": "r17", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Shortcut map is desktop-shaped. Android is the first ship.", "zh-CN": "快捷键表是桌面形状的。我们先上船的是 Android。" }, "resolution": { "en": "Touch first. Shortcuts wait. Closed.", "zh-CN": "先触摸。快捷键以后。关闭。" } },
+    { "id": "r18", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Multi-file delete has no confirm. One thumb will erase a folder.", "zh-CN": "多文件删除没有确认。拇指一下就能清掉一个文件夹。" }, "resolution": { "en": "Confirm only when more than one file is selected. Closed.", "zh-CN": "只在选中多个文件时确认。关闭。" } },
+    { "id": "r19", "round": 1, "reviewer": "reviewer-interaction", "text": { "en": "Focus order in the editor toolbar is undesigned.", "zh-CN": "编辑器工具栏的焦点顺序没人管。" }, "resolution": { "en": "Focus ring spec added, left to right, then canvas. Closed.", "zh-CN": "补了焦点环：从左到右，再到画布。关闭。" } },
+    { "id": "r20", "round": 1, "reviewer": "reviewer-product", "text": { "en": "Preview is sketched calling editor private state. That is not a module boundary.", "zh-CN": "稿子里预览直接调编辑器私有状态。这不叫模块边界。" }, "resolution": { "en": "Preview reads the public render snapshot only. Closed.", "zh-CN": "预览只读公开渲染快照。关闭。" } },
+    { "id": "r21", "round": 2, "reviewer": "reviewer-visual", "text": { "en": "H1 at 28 still collides with the status bar on small phones.", "zh-CN": "H1 用 28，小手机上会撞状态栏。" }, "resolution": { "en": "H1 steps down to 24 under 360px width. Closed.", "zh-CN": "宽度低于 360 时 H1 降到 24。关闭。" } },
+    { "id": "r22", "round": 2, "reviewer": "reviewer-visual", "text": { "en": "The 1.75 stroke looks light on the teal accent icons.", "zh-CN": "青色强调图标上，1.75 的线还是偏轻。" }, "resolution": { "en": "Accent icons use the same stroke. Color carries the weight. Closed.", "zh-CN": "强调图标线宽不变。靠颜色提重。关闭。" } },
+    { "id": "r23", "round": 2, "reviewer": "reviewer-visual", "text": { "en": "42% preview feels cramped once the keyboard is open.", "zh-CN": "键盘弹起来之后，42% 的预览太挤。" }, "resolution": { "en": "Keyboard open collapses preview to a tab. Closed.", "zh-CN": "键盘弹出时预览收成一个标签。关闭。" } },
+    { "id": "r24", "round": 2, "reviewer": "reviewer-visual", "text": { "en": "The empty-state sentence is centered like a marketing page.", "zh-CN": "空状态那句话居中了，像营销页。" }, "resolution": { "en": "Left aligned, same inset as file rows. Closed.", "zh-CN": "左对齐，和文件行同一缩进。关闭。" } },
+    { "id": "r25", "round": 2, "reviewer": "reviewer-product", "text": { "en": "Deferred items still appear in the P0 count on one slide.", "zh-CN": "有一页幻灯还把延后项算进了 P0。" }, "resolution": { "en": "Slide corrected. P0 is 28. Total is 35. Closed.", "zh-CN": "那页改了。P0 是 28。总数 35。关闭。" } },
+    { "id": "r26", "round": 2, "reviewer": "reviewer-product", "text": { "en": "R-14 has no acceptance line.", "zh-CN": "R-14 没有验收句。" }, "resolution": { "en": "Acceptance line added: create, rename, delete a folder. Closed.", "zh-CN": "补了验收句：新建、重命名、删除文件夹。关闭。" } },
+    { "id": "r27", "round": 2, "reviewer": "reviewer-product", "text": { "en": "Share-sheet copy still says export in the Android notes.", "zh-CN": "Android 备注里，分享面板的文案还在说导出。" }, "resolution": { "en": "Share sheet removed from the P1 pack. Closed.", "zh-CN": "分享面板已从 P1 包里删掉。关闭。" } },
+    { "id": "r28", "round": 2, "reviewer": "reviewer-product", "text": { "en": "A tag chip survived in the file-row mock.", "zh-CN": "文件行稿子里还留着一枚标签芯片。" }, "resolution": { "en": "Chip deleted. Folders only. Closed.", "zh-CN": "芯片删了。只留文件夹。关闭。" } },
+    { "id": "r29", "round": 2, "reviewer": "reviewer-product", "text": { "en": "Search placeholder promises semantic search. We cannot build that.", "zh-CN": "搜索占位符承诺了语义搜索。我们做不了那个。" }, "resolution": { "en": "Placeholder now says title and body only. Closed.", "zh-CN": "占位符改成只搜标题和正文。关闭。" } },
+    { "id": "r30", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Scroll sync fights manual preview scrolling.", "zh-CN": "滚动跟随会跟手动翻预览对着干。" }, "resolution": { "en": "A manual preview scroll breaks sync until the next edit. Closed.", "zh-CN": "手动翻预览就断开跟随，直到下一次编辑。关闭。" } },
+    { "id": "r31", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Predictive back on Android 14 is not mentioned.", "zh-CN": "Android 14 的预测性返回没提。" }, "resolution": { "en": "Option C note: predictive back closes the drawer. Closed.", "zh-CN": "选项 C 备注：预测性返回先关抽屉。关闭。" } },
+    { "id": "r32", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Undo across notes would surprise people.", "zh-CN": "撤销如果跨笔记，会吓到人。" }, "resolution": { "en": "Undo is per note. Closed.", "zh-CN": "撤销按笔记隔离。关闭。" } },
+    { "id": "r33", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Long-press on a file has no stated outcome.", "zh-CN": "长按文件会怎样，没写。" }, "resolution": { "en": "Long-press selects. A second tap opens. Closed.", "zh-CN": "长按是选中。再点一次才打开。关闭。" } },
+    { "id": "r34", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Single-file delete confirm was removed, but the trash affordance is unclear.", "zh-CN": "单文件删除不确认了，可是垃圾桶长什么样没说清。" }, "resolution": { "en": "Trash is a row action with undo snackbar, 5 seconds. Closed.", "zh-CN": "删除是行内操作，5 秒撤销条。关闭。" } },
+    { "id": "r35", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Focus ring color is the same as the caret. They merge.", "zh-CN": "焦点环和光标一个颜色，糊在一起。" }, "resolution": { "en": "Ring is #2f6fed. Caret stays ink. Closed.", "zh-CN": "焦点环用 #2f6fed。光标仍是墨色。关闭。" } },
+    { "id": "r36", "round": 2, "reviewer": "reviewer-visual", "text": { "en": "Accent tokens are not written down, so the next mock will drift.", "zh-CN": "强调色没落成 token，下一稿还会漂。" }, "resolution": { "en": "Ink, paper, and accent tokens added to ADR-001 appendix. Closed.", "zh-CN": "墨色、纸色、强调色 token 写进 ADR-001 附录。关闭。" } },
+    { "id": "r37", "round": 2, "reviewer": "reviewer-product", "text": { "en": "The 40 cases do not name which requirement they cover.", "zh-CN": "40 条用例没写各自覆盖哪条需求。" }, "resolution": { "en": "Trace column added. Every case points at an R-id. Closed.", "zh-CN": "加了追溯列。每条用例指向一个 R 编号。关闭。" } },
+    { "id": "r38", "round": 2, "reviewer": "reviewer-product", "text": { "en": "The scope sentence still has a soft 'for now' in the Chinese pack.", "zh-CN": "中文包里的范围句子还带着「先这样」。" }, "resolution": { "en": "Both languages now say the scope is frozen: Write + Manage. Closed.", "zh-CN": "两种语言都改成范围已冻结：写 + 管。关闭。" } },
+    { "id": "r39", "round": 2, "reviewer": "reviewer-interaction", "text": { "en": "Option C does not say what the back stack contains.", "zh-CN": "选项 C 没写返回栈里到底有什么。" }, "resolution": { "en": "Stack is library, then note. Nothing else in MVP. Closed.", "zh-CN": "栈里只有文库，然后是笔记。MVP 别无其他。关闭。" } }
+  ]
+}

@@ -1,40 +1,96 @@
 # troupe —— 你的 AI 工程剧团
 
-> 实时可视化的 AI 工程团队"战况室"：像 NASA 任务控制中心一样，看见一支全 AI 组成的软件工程团队此刻在干什么。
+> 一支全 AI 工程团队的实时战况室。浅色等距基地，像任务控制中心。
 
-英文 *company* 双关"公司 / 剧团"：战况室是剧院，每个面板都是一出"情景剧"——评审会直播、每日站会、成员手头任务，点开即看正在发生的剧情。
+英文 *company* 同时是「公司」和「剧团」：战况室是剧院，每个面板都是一场正在演的戏。点开面板，戏就往下走——评审会、站会、某个人手头的活。
 
-更大的愿景是**开箱即用的 AI 工程团队**：换一份 `team.config.json`，整支剧团就为另一支团队重新登场。看见 AI 团队在为你干活，本身就是会员制的卖点。
+换一份 `team.config.json`，同一块场地就为另一支团队服务。这就是开箱即用。
 
 [English](README.md)
 
-## 结构：先公司，后项目
+## 本地运行
+
+在仓库根目录：
+
+```bash
+npm install
+npm run dev
+```
+
+打开 http://127.0.0.1:5173/。页面由模拟导演启动，不需要后端，不需要登录，three.js 也不会在运行时去拉 CDN（库已经打进包里）。
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+`npm run build` 的产物在 `projects/warroom/app/dist`。
+
+语言跟随浏览器（`zh*` 用 zh-CN，否则英文）。缺翻译键时回退英文。顶栏的 EN / 中文会立刻切换。
+
+没有 WebGL 时页面不空白：顶上有一条说明，产区改成平面看板。本机有 WebGL 时，地址加上 `?nowebgl=1` 可以看到这条兜底。
+
+## 换成另一支团队
+
+组织数据全在一个文件里：
+
+`projects/warroom/app/team.config.json`
+
+里面有剧团名、成员、小队、站点、产区、阶段、评审剧本、站会台词、私聊、敲定、评分、Token 阈值和开场数字。`packages/team-config` 在启动时校验形状。文件坏了，错误列表会画在 `#warroom` 里，而不是白屏。
+
+成员 `id` 保持稳定。`aliases` 用来把控制台事件（例如 `actor: "架构师"`）对上人。面向读者的句子写成 `{ "en", "zh-CN" }`。界面铬件（按钮、面板标题）留在 `projects/warroom/app/src/i18n/en.json` 和 `zh-CN.json`。
+
+## 事件 schema
+
+整块场地只读一条总线：
+
+```ts
+window.TeamEvents.push({
+  type: 'task_done',
+  actor: '架构师',
+  action: '提交 ADR-002',
+  ts: Date.now(),
+});
+```
+
+动态、架构师的手头任务、已交付资产数，都从这次调用更新。面板不会自己用定时器写团队数据。
+
+覆盖的类型：`task_started`、`task_progress`、`task_done`、`task_handoff`、`review_comment`、`meeting_speech`、`dm_message`、`member_online`、`member_offline`、`member_pose`、`phase_changed`、`report_standup`、`report_weekly`、`version_signoff`、`alignment_done`、`review_score`、`cost_report`、`budget_alert`、`escalation_urgent`、`alert_cleared`、`scene_cue`。
+
+`escalation_urgent` 的 `payload.level` 为 `P0` 或 `P1`。私聊（`dm_message`）的正文在 `payload.text`，公开动态只说这两个人在说话。
+
+完整表在 [docs/zh-CN/EVENT-SCHEMA.md](docs/zh-CN/EVENT-SCHEMA.md)。
+
+## 真实 agent 事件源接在哪里
+
+`packages/team-events/src/realtime-adapter.ts` 是空的事件源。方法体标了 `REAL-SOURCE`。在 `start` 里用 WebSocket 或 SSE 把每一帧交给 `push`，在 `stop` 里关掉连接。
+
+从 `projects/warroom/app/src/main.ts` 打开：
+
+```ts
+bus.setAdapter(new RealtimeAdapter());
+```
+
+这种模式下不要再启动 `SimulationEngine`。场景和面板无论哪边在推，都只订阅总线，所以不用改。
+
+## 目录
 
 ```
 troupe/
-├── projects/                  # 每个项目独立目录，各有自己的
-│   ├── paper/                 #   分工、里程碑、产出物、文档
-│   │   ├── PROJECT.md         #   项目总览：目标/状态/当前里程碑
-│   │   ├── team/              #   本项目分工（仅 dev）
-│   │   ├── milestones/        #   p0→p6：STATUS.md + 各阶段产出（仅 dev）
-│   │   ├── deliverables/      #   可交付物（仅 dev）
-│   │   └── docs/              #   项目文档，中英双语
-│   └── warroom/               #（同样结构）
-│       └── app/               #   战况室前端本体（公开）
-├── crew/                      # 公司级：演员档案与行为脚本（仅 dev）
-├── packages/                  # 公司级：共享技术资产（事件总线、模拟引擎）
-├── docs/                      # 公司级：双语团队文档
+├── projects/paper/          Paper，剧团的第一个产品
+├── projects/warroom/app/    这块场地（公开，开箱即用）
+├── crew/                    演员脚本（只在 dev 分支）
+├── packages/                事件总线、配置校验、模拟
+└── docs/                    公司级双语文档
 ```
 
-半开源：`main` 是干净公开面（可运行产品 + 项目总览 + 公开文档）；`dev` 放全量内部实现。见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+先公司，后项目。依赖只允许 `projects → packages`。
 
-## 分支
+`main` 是公开面：应用、`packages/`、各项目的 `PROJECT.md`、公开文档，以及本 README。它不包含 `crew/`，也不包含任何项目的 `team/`、`milestones/`、`deliverables/`。那些在 `dev`。见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-- `main` —— 公开面，稳定
-- `dev` —— 全量内部实现，日常集成
-- `release` —— `main` 的发布快照，打 tag
-- `feature/*` —— 从 `dev` 切，合回 `dev`
+## 你在看的这场戏
 
-## 贡献
+`packages/simulation` 里的导演循环演出：站会、一场没谈拢的私聊、只叫相关人的碰头、39 条评审意见里的一段、芯片从设计流到实现、测试、评审、发布、周五纪要、版本敲定、双向考评。Token 水位走过 70 / 85 / 100 / 120。到 120，停职预案让剧团休眠，然后再复职。每隔一轮会升起红色警报，下一场让路，直到警报解除。
 
-见 [CONTRIBUTING.md](CONTRIBUTING.md)。一句话：**commit 用英文**，文档中英双语，`crew/`、各项目的 `team/`、`milestones/`、`deliverables/` 永不进 `main`。
+人只在自己的产区里走。跨产区的活是一枚芯片，不是一次通勤。

@@ -6,7 +6,7 @@
 
 ## 状态
 
-- **当前里程碑：** 骨架 + demo v0.1 完成（模拟数据，真机 Chromium 零报错验证）。Cursor 真实实现待启动（`feature/warroom-v1`）。
+- **当前里程碑：** 场地已经能运行。Vite + TypeScript + three.js，导演驱动，中英双语。在浏览器里核对过 1600×900 和 390×844，包括控制台推一条 `task_done`，以及没有 WebGL 时的兜底。
 - **数据面：** 现阶段是模拟中控——中央 `Director` 调度情景剧，8 个角色跑行为脚本，全部走 `window.TeamEvents`；真实 agent 事件以后走 `REAL-SOURCE` 口子（WebSocket/SSE）。
 - **沟通机制：** L0 私聊 → L1 碰头（只叫相关人）→ L2 评审会 → L3 对齐会；站会、版本敲定门、紧急上报红色警报——全部可视化。
 - **国际化：** en + zh-CN，界面文字禁硬编码。**Commit 用英文。**

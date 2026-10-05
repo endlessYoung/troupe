@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@troupe/team-events": ["../team-events/src/index.ts"],
+      "@troupe/team-config": ["../team-config/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}
