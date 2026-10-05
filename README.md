@@ -1,8 +1,8 @@
 # troupe — Your AI Engineering Troupe
 
-> A real-time war room for an all-AI engineering team. NASA mission control, drawn as a light isometric base.
+> A real-time war room for an all-AI engineering team. One company floor, isometric, day or night.
 
-*Troupe* is a company of performers. English *company* doubles as "business / theater troupe": the war room is the theater, and every panel is a live scene. Click a panel and the scene plays out — a review sitting, a standup, one person's work.
+*Troupe* is a company of performers. English *company* doubles as "business / theater troupe": the war room is the theater, and the floor is the stage. Click a person or a room and the drawer opens. The scene — a review, a standup, one person's work — is in there.
 
 Swap one `team.config.json` and the same floor serves another team. That is the drop-in pitch.
 
@@ -27,7 +27,23 @@ npm run build
 
 `npm run build` writes `projects/warroom/app/dist`.
 
-The floor follows the browser language (`zh*` → zh-CN, otherwise English) and falls back to English when a key is missing. The EN / 中文 control in the top bar switches immediately.
+The floor follows the browser language (`zh*` → zh-CN, otherwise English) and falls back to English when a key is missing. EN / 中文 sits with the tools at the top right and switches immediately.
+
+## The floor
+
+![The floor by day, during standup](docs/screenshots/day.png)
+
+The building fills the frame. Nine rooms share walls. Along the back: inception, backlog, command, design, build. Along the front: release, review, test, and the lounge. A wood corridor runs between the two rows.
+
+![The same floor after dark](docs/screenshots/night.png)
+
+From 19:00 to 07:00 the page opens at night. Room lights, the command screen, and the desk lamps carry the scene. Night / Day, or `N`, switches it.
+
+![The review room, opened with the 6 key](docs/screenshots/review.png)
+
+Click a room, a person, or press `1` through `7`. The camera flies there and the drawer opens on the right, clear of the room. Drag to orbit, right-drag to pan, scroll to zoom. `Esc` returns to the overview. `T` tours the seven rooms and stops the moment you move the camera.
+
+A name tag carries status and task progress. A new event raises a speech bubble over that person. Standup, a huddle, and a private thread draw an arc only between the people actually in it. A handoff crosses the corridor as a glowing dossier. The release bar lifts only after the chairman signs.
 
 If WebGL is missing, the page stays up: a banner explains it, and the zones render as a flat board. Append `?nowebgl=1` to see that path on a machine that does have WebGL.
 
@@ -93,4 +109,4 @@ Company first, projects second. Dependencies run `projects → packages` only.
 
 The director in `packages/simulation` plays a loop: standup, a private thread that fails to close, a huddle of only the people involved, a slice of the 39 review comments, chips moving design → build → test → review → release, the Friday note, version sign-off, and two-way scoring. Token spend steps through 70 / 85 / 100 / 120. At 120 the stop-work plan turns the company dormant, then reinstates them. Every other cycle raises a red alert and holds the next scene until it clears.
 
-Avatars walk inside their own zone. Cross-zone work is a chip, not a commute.
+People stay seated in their own rooms. Cross-zone work is a dossier on the corridor, not a commute.
